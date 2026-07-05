@@ -21,7 +21,7 @@ import org.loyaltyengine.points_service.shared.dtos.PageDto;
 import org.loyaltyengine.points_service.shared.dtos.PaginationQueryDto;
 import org.loyaltyengine.points_service.shared.enums.TransactionReason;
 import org.loyaltyengine.points_service.shared.enums.TransactionType;
-import org.loyaltyengine.points_service.shared.utils.SharedUitls;
+import org.loyaltyengine.points_service.shared.utils.SharedUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -94,7 +94,7 @@ public class PointServiceImpl implements PointService {
     public PointsResultDto getCustomerPoints(String propertyId, String customerId, PaginationQueryDto paginationQueryDto) {
         log.info("Getting points for propertyId: {}, customerId: {}", propertyId, customerId);
         // Create pageable
-        Pageable pageable = SharedUitls.buildValidPageable(paginationQueryDto);
+        Pageable pageable = SharedUtils.buildValidPageable(paginationQueryDto);
 
         // Get points
         Page<Point> points = repository.findByPropertyIdAndCustomerId(propertyId, customerId, pageable);

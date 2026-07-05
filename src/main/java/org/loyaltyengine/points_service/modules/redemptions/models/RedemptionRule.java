@@ -14,8 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.loyaltyengine.points_service.modules.redemptions.utils.CouponType;
 import org.loyaltyengine.points_service.modules.redemptions.utils.RedemptionType;
+import org.loyaltyengine.points_service.shared.enums.CouponType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,13 +46,10 @@ public class RedemptionRule {
     @Enumerated(EnumType.STRING)
     private CouponType couponType; // For COUPON redemption type
 
-    @Column(nullable = false)
-    private Integer pointsRequired;
-
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal equivalentValue;
+    private BigDecimal valuePerSinglePoint;
 
-    private String currency;
+    private String amountCurrency;
 
     @Column(nullable = false)
     private Boolean isActive;

@@ -1,5 +1,8 @@
 package org.loyaltyengine.points_service.modules.redemptions.utils;
 
+import lombok.Getter;
+
+@Getter
 public enum RedemptionType {
     CASHBACK("CASHBACK"),
     COUPON("COUPON");
@@ -8,9 +11,5 @@ public enum RedemptionType {
 
     RedemptionType(final String value) {
         this.value = value;
-    }
-
-    public String getValue() {
-        return value;
     }
 }
