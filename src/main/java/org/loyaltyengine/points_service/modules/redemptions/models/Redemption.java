@@ -18,6 +18,8 @@ import lombok.Setter;
 import org.loyaltyengine.points_service.modules.redemptions.utils.RedemptionType;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,10 +30,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Redemption {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Enumerated(EnumType.STRING)
     @Column( nullable = false)
     private RedemptionType redemptionType;
+    private String couponId;
+    private String propertyId;
+    private String customerId;
+    private Integer numberOfPoints;
+    private BigDecimal calculatedValue;
+    private String ruleId;
+    private Integer totalRemainingPoints;
+    private Integer totalDebited;
 }

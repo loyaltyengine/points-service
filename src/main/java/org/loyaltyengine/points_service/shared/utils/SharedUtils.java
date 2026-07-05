@@ -8,8 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-public final class SharedUitls {
-    private SharedUitls() {}
+import java.util.Currency;
+
+public final class SharedUtils {
+    private SharedUtils() {
+    }
 
     public static Pageable buildValidPageable(PaginationQueryDto dto) {
         int size = dto.getSize() < 0 || dto.getSize() > SharedConstants.MAX_PAGE_SIZE ? SharedConstants.MAX_PAGE_SIZE
@@ -26,5 +29,14 @@ public final class SharedUitls {
                 page,
                 size,
                 Sort.by(direction, sort));
+    }
+
+    public static boolean isValidCurrency(String currency) {
+        try {
+            Currency.getInstance(currency);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
