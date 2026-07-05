@@ -16,6 +16,13 @@ public interface PointService {
      */
     public PointDto grantPoints(CreatePointDto dto);
 
+    /**
+     * Get customer points
+     * @param propertyId the propertyId
+     * @param customerId the customerId
+     * @param paginationQueryDto pagination info
+     * @return paginated points
+     */
     public PointsResultDto getCustomerPoints(String propertyId, String customerId, PaginationQueryDto paginationQueryDto);
 
     public PointDto getPoint(String propertyId, String customerId, String pointId);
