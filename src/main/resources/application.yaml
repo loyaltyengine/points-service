@@ -11,5 +11,10 @@ spring:
     show-sql: true
   grpc:
     server:
-      port: 9090
+      port: 9091
+    client:
+      channel:
+        coupons-service:
+          target: static://localhost:9090
+          bypass-certificate-validation: true
 
