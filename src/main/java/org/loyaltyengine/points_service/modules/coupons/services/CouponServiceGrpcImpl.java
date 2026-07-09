@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CouponServiceGrpcImpl implements CouponService{
+public class CouponServiceGrpcImpl implements CouponService {
 
     private final CouponsServiceGrpc.CouponsServiceBlockingStub stub;
     private final CouponMapper mapper;
