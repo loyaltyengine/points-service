@@ -1,6 +1,6 @@
 package org.loyaltyengine.points_service.common.exceptions;
 
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorType;
 
 public class ConflictException extends ApiException {
 

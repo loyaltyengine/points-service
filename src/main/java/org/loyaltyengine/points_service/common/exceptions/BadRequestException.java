@@ -1,10 +1,10 @@
 package org.loyaltyengine.points_service.common.exceptions;
 
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorType;
 
 import java.util.List;
 
-import org.loyaltyengine.openapi.model.ErrorDetail;
+import org.loyaltyengine.points.v1.model.ErrorDetail;
 import lombok.Getter;
 
 @Getter

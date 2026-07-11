@@ -1,7 +1,7 @@
 package org.loyaltyengine.points_service.modules.redemptions.services;
 
-import org.loyaltyengine.openapi.model.ErrorDetail;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorDetail;
+import org.loyaltyengine.points.v1.model.ErrorType;
 import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
 import org.loyaltyengine.points_service.modules.redemptions.utils.RedemptionType;

@@ -3,10 +3,10 @@ package org.loyaltyengine.points_service.modules.points.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.loyaltyengine.openapi.model.CreatePointRequest;
-import org.loyaltyengine.openapi.model.PointResponse;
-import org.loyaltyengine.openapi.model.PointsResponse;
-import org.loyaltyengine.openapi.model.Status;
+import org.loyaltyengine.points.v1.model.CreatePointRequest;
+import org.loyaltyengine.points.v1.model.PointResponse;
+import org.loyaltyengine.points.v1.model.PointsResponse;
+import org.loyaltyengine.points.v1.model.Status;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointsResultDto;
@@ -27,12 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/v1")
 public class PointController {
-    // Constants
     public static final String CUSTOMER_POINTS_URL = "/properties/{propertyId}/customers/{customerId}/points";
     public static final String CUSTOMER_POINT_URL = "/properties/{propertyId}/customers/{customerId}/points/{pointId}";
     public static  final String PROPERTY_POINTS_URL = "/properties/{propertyId}/points";
 
-    // Dependencies
     private final PointMapper pointMapper;
     private final PointService pointService;
 
@@ -43,16 +41,16 @@ public class PointController {
             final @PathVariable String customerId,
             final @RequestBody @Valid CreatePointRequest request) {
         // Create dto
-        CreatePointDto createPointDto = pointMapper.toCreateDto(request);
+        CreatePointDto createPointDto = pointMapper.toDto(request);
         createPointDto.setPropertyId(propertyId);
         createPointDto.setCustomerId(customerId);
 
-        // Call service
+        // Grant points
         PointDto pointDto = pointService.grantPoints(createPointDto);
 
-        // Api response
+        // Response
         PointResponse apiResponse = new PointResponse()
-                .point(pointMapper.toClientPoint(pointDto))
+                .point(pointMapper.toClient(pointDto))
                 .status(new Status().code(201).message("Points granted successfully"));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
@@ -79,8 +77,8 @@ public class PointController {
                         .build());
         // Response
         PointsResponse apiResponse = new PointsResponse()
-                .page(pointMapper.toClientPage(result.getPage()))
-                .points(pointMapper.toClientPointList(result.getPoints()))
+                .page(pointMapper.toClient(result.getPage()))
+                .points(pointMapper.toClient(result.getPoints()))
                 .status(new Status().code(200).message("Points retrieved successfully"));
 
         return ResponseEntity.ok(apiResponse);

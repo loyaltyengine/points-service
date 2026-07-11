@@ -1,7 +1,7 @@
 package org.loyaltyengine.points_service.modules.points.mappers;
 
-import org.loyaltyengine.openapi.model.CreatePointRequest;
-import org.loyaltyengine.openapi.model.Page;
+import org.loyaltyengine.points.v1.model.CreatePointRequest;
+import org.loyaltyengine.points.v1.model.Page;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.models.Point;
@@ -14,13 +14,13 @@ import java.util.List;
 public interface PointMapper {
     PointDto toDto(Point point);
 
-    CreatePointDto toCreateDto(CreatePointRequest request);
+    CreatePointDto toDto(CreatePointRequest request);
 
-    org.loyaltyengine.openapi.model.Point toClientPoint(PointDto pointDto);
+    org.loyaltyengine.points.v1.model.Point toClient(PointDto pointDto);
 
-    List<PointDto> toDtoList(List<Point> points);
+    List<PointDto> toDto(List<Point> points);
 
-    Page toClientPage(PageDto page);
+    Page toClient(PageDto page);
 
-    List<org.loyaltyengine.openapi.model.Point> toClientPointList(List<PointDto> points);
+    List<org.loyaltyengine.points.v1.model.Point> toClient(List<PointDto> points);
 }

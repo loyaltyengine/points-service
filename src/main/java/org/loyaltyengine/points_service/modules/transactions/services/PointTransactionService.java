@@ -4,5 +4,5 @@ import org.loyaltyengine.points_service.modules.transactions.dtos.CreatePointTra
 import org.loyaltyengine.points_service.modules.transactions.dtos.PointTransactionDto;
 
 public interface PointTransactionService {
-    public PointTransactionDto createPointTransaction(CreatePointTransactionDto pointTransactionDto);
+    PointTransactionDto createPointTransaction(CreatePointTransactionDto dto);
 }

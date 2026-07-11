@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class BalanceAfterDebitDto {
+public class DebitPointsResultDto {
     private Integer totalRemainingPoints;
     private Integer totalDebited;
 }

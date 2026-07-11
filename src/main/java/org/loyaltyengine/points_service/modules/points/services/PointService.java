@@ -1,6 +1,6 @@
 package org.loyaltyengine.points_service.modules.points.services;
 
-import org.loyaltyengine.points_service.modules.points.dtos.BalanceAfterDebitDto;
+import org.loyaltyengine.points_service.modules.points.dtos.DebitPointsResultDto;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointsResultDto;
@@ -27,5 +27,5 @@ public interface PointService {
 
     public PointDto getPoint(String propertyId, String customerId, String pointId);
 
-    public BalanceAfterDebitDto debitPoints(String propertyId, String customerId, Integer points);
+    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer points);
 }
