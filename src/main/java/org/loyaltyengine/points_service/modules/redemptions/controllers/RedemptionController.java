@@ -1,11 +1,12 @@
 package org.loyaltyengine.points_service.modules.redemptions.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.loyaltyengine.openapi.model.CreateRedemptionRequest;
-import org.loyaltyengine.openapi.model.CreateRedemptionRuleRequest;
-import org.loyaltyengine.openapi.model.RedemptionResponse;
-import org.loyaltyengine.openapi.model.RedemptionRuleResponse;
-import org.loyaltyengine.openapi.model.Status;
+import org.loyaltyengine.points.v1.model.CreateRedemptionRequest;
+import org.loyaltyengine.points.v1.model.CreateRedemptionRuleRequest;
+import org.loyaltyengine.points.v1.model.RedemptionResponse;
+import org.loyaltyengine.points.v1.model.RedemptionRuleResponse;
+import org.loyaltyengine.points.v1.model.Status;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.RedemptionDto;
@@ -31,8 +32,9 @@ public class RedemptionController {
     private final RedemptionMapper mapper;
 
     @PostMapping(PROPERTY_RULES_URL)
-    public ResponseEntity<RedemptionRuleResponse> createRedemptionRule(@PathVariable String propertyId,
-                                                                       @RequestBody CreateRedemptionRuleRequest request) {
+    public ResponseEntity<RedemptionRuleResponse> createRedemptionRule(
+            final @PathVariable String propertyId,
+            final @Valid @RequestBody CreateRedemptionRuleRequest request) {
         // Request
         CreateRedemptionRuleDto dto = mapper.toDto(request);
         dto.setPropertyId(propertyId);
@@ -50,10 +52,9 @@ public class RedemptionController {
 
     @PostMapping(CUSTOMER_REDEMPTIONS_URL)
     public ResponseEntity<RedemptionResponse> createRedemption(
-            @PathVariable String propertyId,
-            @PathVariable String customerId,
-            @RequestBody CreateRedemptionRequest request
-    ) {
+            final @PathVariable String propertyId,
+            final @PathVariable String customerId,
+            final @Valid @RequestBody CreateRedemptionRequest request) {
         CreateRedemptionDto dto = mapper.toDto(request);
         dto.setPropertyId(propertyId);
         dto.setCustomerId(customerId);

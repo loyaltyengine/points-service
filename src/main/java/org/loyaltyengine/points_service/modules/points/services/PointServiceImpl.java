@@ -2,10 +2,10 @@ package org.loyaltyengine.points_service.modules.points.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorType;
 import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
 import org.loyaltyengine.points_service.common.exceptions.NotFoundException;
-import org.loyaltyengine.points_service.modules.points.dtos.BalanceAfterDebitDto;
+import org.loyaltyengine.points_service.modules.points.dtos.DebitPointsResultDto;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointsResultDto;
@@ -107,7 +107,7 @@ public class PointServiceImpl implements PointService {
                         .totalPages(points.getTotalPages())
                         .totalElements(points.getTotalElements())
                         .build())
-                .points(mapper.toDtoList(points.getContent()))
+                .points(mapper.toDto(points.getContent()))
                 .build();
     }
 
@@ -120,7 +120,7 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
-    public BalanceAfterDebitDto debitPoints(String propertyId, String customerId, Integer pointsToDebit) {
+    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer pointsToDebit) {
         log.info("Debiting {} points for propertyId: {}, customerId: {}", pointsToDebit, propertyId, customerId);
         OffsetDateTime now = OffsetDateTime.now();
         // Get points
@@ -163,7 +163,7 @@ public class PointServiceImpl implements PointService {
             pointsToDeduct -= toDeduct;
         }
 
-        return BalanceAfterDebitDto.builder()
+        return DebitPointsResultDto.builder()
                 .totalRemainingPoints(totalRemaining - pointsToDebit)
                 .totalDebited(pointsToDebit)
                 .build();

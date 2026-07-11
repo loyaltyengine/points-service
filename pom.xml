@@ -136,8 +136,8 @@
                                 <useJakartaEe>true</useJakartaEe>
                                 <documentationProvider>none</documentationProvider>
                                 <annotationLibrary>none</annotationLibrary>
-                                <apiPackage>org.loyaltyengine.openapi.api</apiPackage>
-                                <modelPackage>org.loyaltyengine.openapi.model</modelPackage>
+                                <apiPackage>org.loyaltyengine.points.v1.api</apiPackage>
+                                <modelPackage>org.loyaltyengine.points.v1.model</modelPackage>
                                 <interfaceOnly>false</interfaceOnly>
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>true</performBeanValidation>

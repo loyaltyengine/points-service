@@ -19,10 +19,9 @@ public class PointTransactionServiceImpl implements PointTransactionService {
     private final PointTransactionMapper mapper;
 
     @Override
-    public PointTransactionDto createPointTransaction(CreatePointTransactionDto pointTransactionDto) {
-        log.info("Creating point transaction: {}", pointTransactionDto);
-        PointTransaction pointTransaction = mapper.toEntity(pointTransactionDto);
-        pointTransaction.setCreatedAt(OffsetDateTime.now());
+    public PointTransactionDto createPointTransaction(CreatePointTransactionDto dto) {
+        log.info("Creating point transaction: {}", dto);
+        PointTransaction pointTransaction = mapper.toEntity(dto);
 
         // Save the point transaction
         PointTransaction saved = repository.save(pointTransaction);

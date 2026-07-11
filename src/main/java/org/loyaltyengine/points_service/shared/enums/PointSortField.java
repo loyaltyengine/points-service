@@ -1,6 +1,6 @@
 package org.loyaltyengine.points_service.shared.enums;
 
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

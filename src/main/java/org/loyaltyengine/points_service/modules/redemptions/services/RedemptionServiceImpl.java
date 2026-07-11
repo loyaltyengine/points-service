@@ -3,14 +3,14 @@ package org.loyaltyengine.points_service.modules.redemptions.services;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.points.v1.model.ErrorType;
 import org.loyaltyengine.points_service.common.exceptions.ApiException;
 import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
 import org.loyaltyengine.points_service.common.exceptions.NotFoundException;
 import org.loyaltyengine.points_service.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.points_service.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.points_service.modules.coupons.services.CouponService;
-import org.loyaltyengine.points_service.modules.points.dtos.BalanceAfterDebitDto;
+import org.loyaltyengine.points_service.modules.points.dtos.DebitPointsResultDto;
 import org.loyaltyengine.points_service.modules.points.services.PointService;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
@@ -148,7 +148,7 @@ public class RedemptionServiceImpl implements RedemptionService {
             // Set coupon id
             newRedemption.setCouponId(couponDto.getId());
             // Debit points
-            BalanceAfterDebitDto balance = pointService.debitPoints(dto.getPropertyId(),
+            DebitPointsResultDto balance = pointService.debitPoints(dto.getPropertyId(),
                     dto.getCustomerId(),
                     debitPoints.intValue());
 

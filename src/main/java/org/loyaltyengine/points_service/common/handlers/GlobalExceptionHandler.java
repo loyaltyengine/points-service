@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import org.loyaltyengine.openapi.model.ErrorDetail;
-import org.loyaltyengine.openapi.model.ErrorResponse;
-import org.loyaltyengine.openapi.model.ErrorType;
-import org.loyaltyengine.openapi.model.Status;
+import org.loyaltyengine.points.v1.model.ErrorDetail;
+import org.loyaltyengine.points.v1.model.ErrorResponse;
+import org.loyaltyengine.points.v1.model.ErrorType;
+import org.loyaltyengine.points.v1.model.Status;
 import org.loyaltyengine.points_service.common.exceptions.ApiException;
 import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
 import org.loyaltyengine.points_service.common.exceptions.ConflictException;
