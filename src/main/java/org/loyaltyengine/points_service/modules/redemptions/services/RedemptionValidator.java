@@ -23,11 +23,11 @@ public class RedemptionValidator {
                 || dto.getRedemptionType() == RedemptionType.COUPON && dto.getCouponType() == CouponType.FIXED_AMOUNT;
 
         if (isCurrencyRequired && dto.getAmountCurrency() == null) {
-            errors.add(new ErrorDetail("amountCurrency", "Amount currency is required"));
+            errors.add(new ErrorDetail().field("amountCurrency").issue("Amount currency is required"));
         }
 
         if (isCurrencyRequired && !SharedUtils.isValidCurrency(dto.getAmountCurrency())) {
-            errors.add(new ErrorDetail("amountCurrency", "Invalid currency code"));
+            errors.add(new ErrorDetail().field("amountCurrency").issue("Invalid currency code"));
         }
 
         if (!errors.isEmpty()) {

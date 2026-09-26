@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1")
+@RequestMapping("points-api/v1")
 public class PointController {
     public static final String CUSTOMER_POINTS_URL = "/properties/{propertyId}/customers/{customerId}/points";
     public static final String CUSTOMER_POINT_URL = "/properties/{propertyId}/customers/{customerId}/points/{pointId}";

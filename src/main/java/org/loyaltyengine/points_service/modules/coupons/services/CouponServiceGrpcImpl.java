@@ -18,19 +18,19 @@ public class CouponServiceGrpcImpl implements CouponService {
 
     @Override
     public CouponDto createCoupon(CreateCouponDto dto) {
-        CouponsServiceOuterClass.CreateCouponRequest request = CouponsServiceOuterClass.CreateCouponRequest.newBuilder()
-                .setPropertyId(dto.getPropertyId())
-                .setCustomerId(dto.getCustomerId())
-                .setBaseCreateCouponRequest(CouponsModels.BaseCreateCouponRequest.newBuilder()
-                        .build())
-                .build();
-
-        CouponsModels.CouponResponse response = stub.createCoupon(request);
-        if (response.getStatus().getCode() == 201) {
-            return mapper.toDto(response);
-        }
-
-        // Return null if the response is not received or not 201, and log response
+//        CouponsServiceOuterClass.CreateCouponRequest request = CouponsServiceOuterClass.CreateCouponRequest.newBuilder()
+//                .setPropertyId(dto.getPropertyId())
+//                .setCustomerId(dto.getCustomerId())
+//                .setBaseCreateCouponRequest(CouponsModels.BaseCreateCouponRequest.newBuilder()
+//                        .build())
+//                .build();
+//
+//        CouponsModels.CouponResponse response = stub.createCoupon(request);
+//        if (response.getStatus().getCode() == 201) {
+//            return mapper.toDto(response);
+//        }
+//
+//        // Return null if the response is not received or not 201, and log response
         return null;
     }
 }

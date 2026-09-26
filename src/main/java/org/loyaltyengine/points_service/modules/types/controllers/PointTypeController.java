@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("points-api/v1")
 @RequiredArgsConstructor
 public class PointTypeController {
     private static final String PROPERTY_POINT_TYPES_URL = "/properties/{propertyId}/types";

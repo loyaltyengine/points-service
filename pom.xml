@@ -33,6 +33,14 @@
         <protobuf-java.version>4.33.4</protobuf-java.version>
         <spring-grpc.version>1.0.2</spring-grpc.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>points-service-local-repo</id>
+            <name>Points Service Repository</name>
+            <url>file://${project.basedir}/libs</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -103,10 +111,16 @@
             <version>1.69.0</version>
         </dependency>
 
-        <!--Loyalty Engine Coupons: https://github.com/loyaltyengine/loyalty-engine-artifacts/tree/main/services/coupons-service-->
+        <!--Loyalty Engine: local repo in libs-->
         <dependency>
             <groupId>org.loyaltyengine.coupons</groupId>
             <artifactId>grpc-stubs</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.loyaltyengine.points</groupId>
+            <artifactId>api-models</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -115,39 +129,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.19.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <skipValidateSpec>true</skipValidateSpec>
-                            <inputSpec>C:/Users/njabu/le/openapi-specifications/dist/points-v1.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <openapiNormalizer>REF_AS_PARENT_IN_ALLOF=true, REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true
-                            </openapiNormalizer>
-                            <configOptions>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
-                                <openApiNullable>false</openApiNullable>
-                                <useJakartaEe>true</useJakartaEe>
-                                <documentationProvider>none</documentationProvider>
-                                <annotationLibrary>none</annotationLibrary>
-                                <apiPackage>org.loyaltyengine.points.v1.api</apiPackage>
-                                <modelPackage>org.loyaltyengine.points.v1.model</modelPackage>
-                                <interfaceOnly>false</interfaceOnly>
-                                <useBeanValidation>true</useBeanValidation>
-                                <performBeanValidation>true</performBeanValidation>
-                                <parentOverriding>true</parentOverriding>
-                                <useEnumCaseInsensitive>true</useEnumCaseInsensitive>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
