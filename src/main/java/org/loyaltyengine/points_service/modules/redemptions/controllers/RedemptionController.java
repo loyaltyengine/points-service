@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("points-api/v1")
 @RequiredArgsConstructor
 public class RedemptionController {
     public static final String PROPERTY_RULES_URL = "/properties/{propertyId}/redemptions/rules";
@@ -44,7 +44,7 @@ public class RedemptionController {
 
         // Response
         RedemptionRuleResponse response = new RedemptionRuleResponse()
-                .status(new Status(201, "Redemption rule created"))
+                .status(new Status().code(201).message("Redemption rule created"))
                 .redemptionRule(mapper.toClient(rule));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -62,7 +62,7 @@ public class RedemptionController {
         RedemptionDto redemption = service.createRedemption(dto);
 
         RedemptionResponse response = new RedemptionResponse()
-                .status(new Status(201, "Redemption created"))
+                .status(new Status().code(201).message("Redemption created"))
                 .redemption(mapper.toClient(redemption));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
