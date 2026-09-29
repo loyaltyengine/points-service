@@ -13,8 +13,10 @@ import java.math.BigDecimal;
 @Builder
 public class CreateRedemptionRuleDto {
     private String propertyId;
-    private RedemptionType redemptionType;
+    private RedemptionType redemptionType; // Coupon or Cash
     private CouponType couponType;
     private BigDecimal valuePerSinglePoint;
-    private String amountCurrency;
+    private String amountCurrency; // For fixed amount coupons
+    private Boolean isActive;
+    private Integer couponValidNumberOfDays;
 }

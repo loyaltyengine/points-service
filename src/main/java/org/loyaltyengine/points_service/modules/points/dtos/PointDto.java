@@ -13,7 +13,7 @@ public class PointDto {
     private String pointId;
     private String propertyId;
     private String customerId;
-    private String pointTypeId;
+    private String pointTemplateId;
     private Integer remainingPoints;
     private Integer numberOfPoints;
     private Boolean exchangeable;

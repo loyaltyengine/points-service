@@ -34,14 +34,14 @@ public class Point {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String pointId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, updatable = false)
     private String propertyId;
 
     @Column(nullable = false, updatable = false)
     private String customerId;
 
-    @Column(nullable = false, updatable = false)
-    private String pointTypeId;
+    @Column(nullable = true, updatable = false)
+    private String pointTemplateId;
 
     @Column(nullable = false)
     private Integer remainingPoints;

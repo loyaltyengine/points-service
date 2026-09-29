@@ -13,5 +13,5 @@ public class CreateRedemptionDto {
     private String propertyId;
     private String customerId;
     private Integer numberOfPoints;
-    private String ruleId;
+    private String redemptionRuleId;
 }

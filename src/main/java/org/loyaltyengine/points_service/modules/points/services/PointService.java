@@ -5,6 +5,7 @@ import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointsResultDto;
 import org.loyaltyengine.points_service.shared.dtos.PaginationQueryDto;
+import org.loyaltyengine.points_service.shared.enums.TransactionReason;
 
 public interface PointService {
 
@@ -27,5 +28,5 @@ public interface PointService {
 
     public PointDto getPoint(String propertyId, String customerId, String pointId);
 
-    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer points);
+    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer points, TransactionReason reason);
 }

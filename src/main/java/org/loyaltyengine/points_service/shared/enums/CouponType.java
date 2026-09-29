@@ -1,8 +1,8 @@
 package org.loyaltyengine.points_service.shared.enums;
 
 import lombok.Getter;
-import org.loyaltyengine.points.v1.model.ErrorType;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
+import org.loyaltyengine.points.client.models.ErrorType;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
 
 @Getter
 public enum CouponType {

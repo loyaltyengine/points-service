@@ -1,17 +1,17 @@
-package org.loyaltyengine.points_service.common.handlers;
+package org.loyaltyengine.points_service.core.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-import org.loyaltyengine.points.v1.model.ErrorDetail;
-import org.loyaltyengine.points.v1.model.ErrorResponse;
-import org.loyaltyengine.points.v1.model.ErrorType;
-import org.loyaltyengine.points.v1.model.Status;
-import org.loyaltyengine.points_service.common.exceptions.ApiException;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
-import org.loyaltyengine.points_service.common.exceptions.ConflictException;
-import org.loyaltyengine.points_service.common.exceptions.NotFoundException;
+import org.loyaltyengine.points.client.models.ErrorDetail;
+import org.loyaltyengine.points.client.models.ErrorResponse;
+import org.loyaltyengine.points.client.models.ErrorType;
+import org.loyaltyengine.points.client.models.Status;
+import org.loyaltyengine.points_service.core.exceptions.ApiException;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
+import org.loyaltyengine.points_service.core.exceptions.ConflictException;
+import org.loyaltyengine.points_service.core.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

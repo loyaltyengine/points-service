@@ -9,7 +9,7 @@ import org.loyaltyengine.points_service.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.points_service.modules.coupons.mappers.CouponMapper;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("grpcCouponService")
 @RequiredArgsConstructor
 public class CouponServiceGrpcImpl implements CouponService {
 
@@ -18,6 +18,7 @@ public class CouponServiceGrpcImpl implements CouponService {
 
     @Override
     public CouponDto createCoupon(CreateCouponDto dto) {
+        // TODO: Add full implementation
 //        CouponsServiceOuterClass.CreateCouponRequest request = CouponsServiceOuterClass.CreateCouponRequest.newBuilder()
 //                .setPropertyId(dto.getPropertyId())
 //                .setCustomerId(dto.getCustomerId())
@@ -27,10 +28,10 @@ public class CouponServiceGrpcImpl implements CouponService {
 //
 //        CouponsModels.CouponResponse response = stub.createCoupon(request);
 //        if (response.getStatus().getCode() == 201) {
-//            return mapper.toDto(response);
+//            return mapper.toDto(response.getCoupon());
 //        }
-//
-//        // Return null if the response is not received or not 201, and log response
+
+        // Return null if the response is not received or not 201, and log response
         return null;
     }
 }

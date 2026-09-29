@@ -1,10 +1,10 @@
 package org.loyaltyengine.points_service.shared.enums;
 
-import org.loyaltyengine.points.v1.model.ErrorType;
+import org.loyaltyengine.points.client.models.ErrorType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
 
 @Getter
 @AllArgsConstructor
