@@ -119,6 +119,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.loyaltyengine.coupons</groupId>
+            <artifactId>api-models</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.loyaltyengine.points</groupId>
             <artifactId>points-client</artifactId>
             <version>1.0.0</version>
