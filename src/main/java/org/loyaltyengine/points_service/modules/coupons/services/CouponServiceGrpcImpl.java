@@ -27,7 +27,7 @@ public class CouponServiceGrpcImpl implements CouponService {
 //                .build();
 //
 //        CouponsModels.CouponResponse response = stub.createCoupon(request);
-//        if (response.getStatus().getCode() == 201) {
+//        if (response.getStatus().getCode() == 200) {
 //            return mapper.toDto(response.getCoupon());
 //        }
 

@@ -62,9 +62,9 @@ public class RedemptionController {
         RedemptionDto redemption = service.createRedemption(dto);
 
         RedemptionResponse response = new RedemptionResponse()
-                .status(new Status().code(201).message("Redemption created"))
+                .status(new Status().code(200).message("Redemption created"))
                 .redemption(mapper.toClient(redemption));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 }
