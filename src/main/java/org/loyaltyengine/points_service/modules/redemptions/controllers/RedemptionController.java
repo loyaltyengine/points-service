@@ -2,11 +2,11 @@ package org.loyaltyengine.points_service.modules.redemptions.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.loyaltyengine.points.v1.model.CreateRedemptionRequest;
-import org.loyaltyengine.points.v1.model.CreateRedemptionRuleRequest;
-import org.loyaltyengine.points.v1.model.RedemptionResponse;
-import org.loyaltyengine.points.v1.model.RedemptionRuleResponse;
-import org.loyaltyengine.points.v1.model.Status;
+import org.loyaltyengine.points.client.models.CreateRedemptionRequest;
+import org.loyaltyengine.points.client.models.CreateRedemptionRuleRequest;
+import org.loyaltyengine.points.client.models.RedemptionResponse;
+import org.loyaltyengine.points.client.models.RedemptionRuleResponse;
+import org.loyaltyengine.points.client.models.Status;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.RedemptionDto;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("points-api/v1")
 @RequiredArgsConstructor
 public class RedemptionController {
-    public static final String PROPERTY_RULES_URL = "/properties/{propertyId}/redemptions/rules";
+    public static final String PROPERTY_RULES_URL = "/properties/{propertyId}/redemption-rules";
     public static final String CUSTOMER_REDEMPTIONS_URL = "/properties/{propertyId}/customers/{customerId}/redemptions";
 
     private final RedemptionService service;

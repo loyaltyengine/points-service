@@ -34,25 +34,22 @@ import java.time.OffsetDateTime;
 public class Redemption {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private String redemptionId;
 
     @Enumerated(EnumType.STRING)
     @Column( nullable = false)
     private RedemptionType redemptionType;
-    private String couponId;
+
+    @Column( nullable = false)
+    private String redemptionRuleId;
+    private String couponCode;
     private String propertyId;
     private String customerId;
     private Integer numberOfPoints;
     private BigDecimal calculatedValue;
-    private String ruleId;
     private Integer totalRemainingPoints;
-    private Integer totalDebited;
-
+    private Integer totalDebitedPoints;
     @Column(nullable = false, updatable = false)
     @CreatedDate
     private OffsetDateTime createdAt;
-
-    @Column(nullable = false)
-    @LastModifiedDate
-    private OffsetDateTime updatedAt;
 }

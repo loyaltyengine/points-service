@@ -1,7 +1,7 @@
 package org.loyaltyengine.points_service.modules.redemptions.mappers;
 
-import org.loyaltyengine.points.v1.model.CreateRedemptionRequest;
-import org.loyaltyengine.points.v1.model.CreateRedemptionRuleRequest;
+import org.loyaltyengine.points.client.models.CreateRedemptionRequest;
+import org.loyaltyengine.points.client.models.CreateRedemptionRuleRequest;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.RedemptionDto;
@@ -15,7 +15,7 @@ public interface RedemptionMapper {
 
     CreateRedemptionRuleDto toDto(CreateRedemptionRuleRequest request);
 
-    org.loyaltyengine.points.v1.model.RedemptionRule toClient(RedemptionRuleDto dto);
+    org.loyaltyengine.points.client.models.RedemptionRule toClient(RedemptionRuleDto dto);
 
     RedemptionRuleDto toDto(RedemptionRule rule);
 
@@ -23,6 +23,6 @@ public interface RedemptionMapper {
 
     RedemptionDto toDto(Redemption redemption);
 
-    org.loyaltyengine.points.v1.model.Redemption toClient(RedemptionDto dto);
+    org.loyaltyengine.points.client.models.Redemption toClient(RedemptionDto dto);
 
 }

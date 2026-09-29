@@ -3,10 +3,10 @@ package org.loyaltyengine.points_service.modules.points.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.loyaltyengine.points.v1.model.CreatePointRequest;
-import org.loyaltyengine.points.v1.model.PointResponse;
-import org.loyaltyengine.points.v1.model.PointsResponse;
-import org.loyaltyengine.points.v1.model.Status;
+import org.loyaltyengine.points.client.models.CreatePointRequest;
+import org.loyaltyengine.points.client.models.PointResponse;
+import org.loyaltyengine.points.client.models.PointsResponse;
+import org.loyaltyengine.points.client.models.Status;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointsResultDto;

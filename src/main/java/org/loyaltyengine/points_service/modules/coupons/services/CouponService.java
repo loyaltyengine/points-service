@@ -8,9 +8,9 @@ public interface CouponService {
     /**
      * Create a new coupon
      *
-     * @param createCouponDto coupon dto
+     * @param dto coupon dto
      * @return CouponDto
      */
-    public CouponDto createCoupon(CreateCouponDto createCouponDto);
+    public CouponDto createCoupon(CreateCouponDto dto);
 
 }

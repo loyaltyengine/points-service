@@ -1,10 +1,11 @@
 package org.loyaltyengine.points_service.modules.points.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loyaltyengine.points.v1.model.ErrorType;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
-import org.loyaltyengine.points_service.common.exceptions.NotFoundException;
+import org.loyaltyengine.points.client.models.ErrorType;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
+import org.loyaltyengine.points_service.core.exceptions.NotFoundException;
 import org.loyaltyengine.points_service.modules.points.dtos.DebitPointsResultDto;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
@@ -15,8 +16,8 @@ import org.loyaltyengine.points_service.modules.points.models.Point;
 import org.loyaltyengine.points_service.modules.points.repositories.PointRepository;
 import org.loyaltyengine.points_service.modules.transactions.dtos.CreatePointTransactionDto;
 import org.loyaltyengine.points_service.modules.transactions.services.PointTransactionService;
-import org.loyaltyengine.points_service.modules.types.dtos.PointTypeDto;
-import org.loyaltyengine.points_service.modules.types.services.PointTypeService;
+import org.loyaltyengine.points_service.modules.templates.dtos.PointTemplateDto;
+import org.loyaltyengine.points_service.modules.templates.services.PointTemplateService;
 import org.loyaltyengine.points_service.shared.dtos.PageDto;
 import org.loyaltyengine.points_service.shared.dtos.PaginationQueryDto;
 import org.loyaltyengine.points_service.shared.enums.TransactionReason;
@@ -27,33 +28,58 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PointServiceImpl implements PointService {
-    private static final String DEFAULT_POINT_TYPE_ID = "pt_general";
-
     private final PointRepository repository;
     private final PointMapper mapper;
-    private final PointTypeService pointTypeService;
+    private final PointTemplateService pointTemplateService;
     private final PointTransactionService pointTransactionService;
 
     @Override
+    @Transactional
     public PointDto grantPoints(CreatePointDto dto) {
-        log.info("Creating new  for propertyId: {}, customerId: {}", dto.getPropertyId(), dto.getCustomerId());
-        // Grant points by type if provided
+        log.info("Granting points for propertyId: {}, customerId: {}", dto.getPropertyId(), dto.getCustomerId());
+
         Integer numberOfPoints;
-        if (dto.getPointTypeId() != null) {
-            PointTypeDto pointType = pointTypeService.getPointType(dto.getPropertyId(), dto.getPointTypeId());
-            numberOfPoints = pointType.getNumberOfPoints();
-        } else {
+        OffsetDateTime validFrom;
+        OffsetDateTime expireAt;
+        String templateId = dto.getPointTemplateId();
+
+        // Get template if provided
+        PointTemplateDto template = null;
+        if (templateId != null) {
+            template = pointTemplateService.getPointTemplate(dto.getPropertyId(), templateId);
+        }
+
+        // Assign number of points
+        if (dto.getNumberOfPoints() != null) {
             numberOfPoints = dto.getNumberOfPoints();
-            if (numberOfPoints == null) {
-                throw new BadRequestException(ErrorType.INVALID_REQUEST, "Number of points is required",
-                        "Either number of points or point type id must be provided");
-            }
+        } else if (template != null && template.getNumberOfPoints() != null) {
+            numberOfPoints = template.getNumberOfPoints();
+        } else {
+            throw new BadRequestException(ErrorType.INVALID_REQUEST, "Number of points is required",
+                    "Either number of points or a valid point template must be provided");
+        }
+
+        // Assign valid from date, use current time if not provided
+        if (dto.getValidFrom() != null) {
+            validFrom = dto.getValidFrom();
+        } else {
+            validFrom = OffsetDateTime.now(ZoneId.systemDefault());
+        }
+
+        // Assign expire at date, use template valid number of days if provided
+        if (dto.getExpireAt() != null) {
+            expireAt = dto.getExpireAt();
+        } else if (template != null && template.getValidNumberOfDays() != null) {
+            expireAt = validFrom.plusDays(template.getValidNumberOfDays());
+        } else {
+            expireAt = null;
         }
 
         // Build the new point
@@ -63,12 +89,10 @@ public class PointServiceImpl implements PointService {
                 .propertyId(dto.getPropertyId())
                 .customerId(dto.getCustomerId())
                 .description(dto.getDescription())
-                .expireAt(dto.getExpireAt())
+                .expireAt(expireAt)
                 .status(PointStatus.ACTIVE)
-                // Set default values if not provided
-                // Although some values will be generated by the OpenAPI schemas, just in case
-                .validFrom(dto.getValidFrom() != null ? dto.getValidFrom() : OffsetDateTime.now())
-                .pointTypeId(dto.getPointTypeId() != null ? dto.getPointTypeId() : DEFAULT_POINT_TYPE_ID)
+                .validFrom(validFrom)
+                .pointTemplateId(dto.getPointTemplateId())
                 .exchangeable(dto.getExchangeable() != null ? dto.getExchangeable() : Boolean.TRUE)
                 .build();
 
@@ -120,12 +144,11 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
-    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer pointsToDebit) {
+    public DebitPointsResultDto debitPoints(String propertyId, String customerId, Integer pointsToDebit, TransactionReason reason) {
         log.info("Debiting {} points for propertyId: {}, customerId: {}", pointsToDebit, propertyId, customerId);
-        OffsetDateTime now = OffsetDateTime.now();
-        // Get points
+        // Get active points
         List<Point> points = repository
-                .findActiveOldestByPropertyIdAndCustomerId(propertyId, customerId, now);
+                .findActiveByPropertyIdAndCustomerId(propertyId, customerId, OffsetDateTime.now(ZoneId.systemDefault()));
 
         // Determine total remaining points
         int totalRemaining = points.stream()
@@ -134,7 +157,7 @@ public class PointServiceImpl implements PointService {
 
         if (totalRemaining < pointsToDebit) {
             throw new BadRequestException(ErrorType.INSUFFICIENT_POINTS, "Not enough points",
-                    "Customer id: " + customerId + " has not enough points");
+                    "Customer id: " + customerId + " does not have enough points");
         }
 
         // Deduct points
@@ -146,6 +169,7 @@ public class PointServiceImpl implements PointService {
 
             int remainingPoints = point.getRemainingPoints();
             int toDeduct = Math.min(remainingPoints, pointsToDeduct);
+
             // Update and save point
             point.setRemainingPoints(remainingPoints - toDeduct);
             repository.save(point);
@@ -157,7 +181,7 @@ public class PointServiceImpl implements PointService {
                     .customerId(point.getCustomerId())
                     .amount(toDeduct)
                     .type(TransactionType.DEBIT)
-                    .reason(TransactionReason.REDEMPTION)
+                    .reason(reason)
                     .build());
 
             pointsToDeduct -= toDeduct;

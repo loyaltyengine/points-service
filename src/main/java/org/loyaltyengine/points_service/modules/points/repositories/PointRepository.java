@@ -22,12 +22,12 @@ public interface PointRepository extends JpaRepository<Point, String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT p FROM Point p WHERE p.propertyId = ?1 " +
-            "AND p.customerId = ?2" +
+            "AND p.customerId = ?2 " +
             "AND p.remainingPoints > 0 " +
             "AND p.status = 'ACTIVE' " +
             "AND p.expireAt > ?3 " +
             "ORDER BY p.createdAt ASC")
-    public List<Point> findActiveOldestByPropertyIdAndCustomerId(
+    public List<Point> findActiveByPropertyIdAndCustomerId(
             String propertyId,
             String customerId,
             OffsetDateTime now);

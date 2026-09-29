@@ -1,7 +1,7 @@
 package org.loyaltyengine.points_service.modules.points.mappers;
 
-import org.loyaltyengine.points.v1.model.CreatePointRequest;
-import org.loyaltyengine.points.v1.model.Page;
+import org.loyaltyengine.points.client.models.CreatePointRequest;
+import org.loyaltyengine.points.client.models.Page;
 import org.loyaltyengine.points_service.modules.points.dtos.CreatePointDto;
 import org.loyaltyengine.points_service.modules.points.dtos.PointDto;
 import org.loyaltyengine.points_service.modules.points.models.Point;
@@ -16,11 +16,11 @@ public interface PointMapper {
 
     CreatePointDto toDto(CreatePointRequest request);
 
-    org.loyaltyengine.points.v1.model.Point toClient(PointDto pointDto);
+    org.loyaltyengine.points.client.models.Point toClient(PointDto pointDto);
 
     List<PointDto> toDto(List<Point> points);
 
     Page toClient(PageDto page);
 
-    List<org.loyaltyengine.points.v1.model.Point> toClient(List<PointDto> points);
+    List<org.loyaltyengine.points.client.models.Point> toClient(List<PointDto> points);
 }

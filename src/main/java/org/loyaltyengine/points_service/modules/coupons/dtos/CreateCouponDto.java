@@ -7,6 +7,7 @@ import org.loyaltyengine.points_service.shared.models.Amount;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -19,9 +20,8 @@ public class CreateCouponDto {
     private String description;
     private Integer usageLimit;
     private Boolean isMultiUser;
-    private LocalDateTime expireAt;
-    private LocalDateTime validFrom;
     private String prefix;
     private Amount amount;
     private BigDecimal percentage;
+    private Integer couponValidNumberOfDays;
 }

@@ -1,4 +1,4 @@
-package org.loyaltyengine.points_service.modules.types.models;
+package org.loyaltyengine.points_service.modules.templates.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.OffsetDateTime;
@@ -23,12 +24,12 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "point_types")
+@Table(name = "point_templates")
 @EntityListeners(AuditingEntityListener.class)
-public class PointType {
+public class PointTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String pointTypeId;
+    private String pointTemplateId;
 
     @Column(nullable = false, updatable = false)
     private String propertyId;
@@ -38,10 +39,14 @@ public class PointType {
 
     private String description;
 
-    @Column(nullable = false)
     private Integer numberOfPoints;
+
+    private Integer validNumberOfDays;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @LastModifiedDate
+    private OffsetDateTime updatedAt;
 }

@@ -4,5 +4,6 @@ public enum TransactionReason {
     GRANT,
     REDEMPTION,
     EXPIRATION,
+    OTHER,
     CANCEL;
 }

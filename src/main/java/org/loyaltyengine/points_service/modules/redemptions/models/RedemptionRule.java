@@ -49,6 +49,8 @@ public class RedemptionRule {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valuePerSinglePoint;
 
+    private Integer couponValidNumberOfDays;
+
     private String amountCurrency;
 
     @Column(nullable = false)

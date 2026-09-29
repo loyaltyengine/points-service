@@ -3,10 +3,10 @@ package org.loyaltyengine.points_service.modules.redemptions.services;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.loyaltyengine.points.v1.model.ErrorType;
-import org.loyaltyengine.points_service.common.exceptions.ApiException;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
-import org.loyaltyengine.points_service.common.exceptions.NotFoundException;
+import org.loyaltyengine.points.client.models.ErrorType;
+import org.loyaltyengine.points_service.core.exceptions.ApiException;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
+import org.loyaltyengine.points_service.core.exceptions.NotFoundException;
 import org.loyaltyengine.points_service.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.points_service.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.points_service.modules.coupons.services.CouponService;
@@ -23,6 +23,7 @@ import org.loyaltyengine.points_service.modules.redemptions.repositories.Redempt
 import org.loyaltyengine.points_service.modules.redemptions.repositories.RedemptionRuleRepository;
 import org.loyaltyengine.points_service.modules.redemptions.utils.RedemptionType;
 import org.loyaltyengine.points_service.shared.enums.CouponType;
+import org.loyaltyengine.points_service.shared.enums.TransactionReason;
 import org.loyaltyengine.points_service.shared.models.Amount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,6 @@ public class RedemptionServiceImpl implements RedemptionService {
     private final PointService pointService;
     private final CouponService couponService;
     private final RedemptionValidator validator;
-
 
     @Override
     @Transactional
@@ -77,6 +77,8 @@ public class RedemptionServiceImpl implements RedemptionService {
                 .redemptionType(dto.getRedemptionType())
                 .couponType(dto.getCouponType())
                 .valuePerSinglePoint(dto.getValuePerSinglePoint())
+                .couponValidNumberOfDays(dto.getCouponValidNumberOfDays())
+                .isActive(dto.getIsActive()==null? Boolean.TRUE : dto.getIsActive())
                 .amountCurrency(dto.getAmountCurrency())
                 .build();
 
@@ -90,23 +92,28 @@ public class RedemptionServiceImpl implements RedemptionService {
     public RedemptionDto createRedemption(CreateRedemptionDto dto) {
         log.info("Redeeming {} points for propertyId: {}, customerId: {}", dto.getNumberOfPoints(), dto.getPropertyId(), dto.getCustomerId());
         // Get redemption rule
-        RedemptionRule rule = redemptionRuleRepository.findById(dto.getRuleId()).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND,
-                "Redemption rule not found", "Redemption rule with id: " + dto.getRuleId() + " not found"));
+        RedemptionRule rule = redemptionRuleRepository.findById(dto.getRedemptionRuleId()).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND,
+                "Redemption rule not found", "Redemption rule with id: " + dto.getRedemptionRuleId() + " not found"));
 
         // Create new redemption
         Redemption newRedemption = new Redemption();
         newRedemption.setPropertyId(dto.getPropertyId());
         newRedemption.setCustomerId(dto.getCustomerId());
-        newRedemption.setRuleId(dto.getRuleId());
+        newRedemption.setRedemptionRuleId(rule.getRedemptionRuleId());
+        newRedemption.setRedemptionType(rule.getRedemptionType());
         newRedemption.setNumberOfPoints(dto.getNumberOfPoints());
 
         // Grant coupon
         if (rule.getRedemptionType() == RedemptionType.COUPON) {
             log.info("Granting {} coupon for propertyId: {}, customerId: {}", rule.getCouponType(),
                     dto.getPropertyId(), dto.getCustomerId());
+
             CreateCouponDto coupon = new CreateCouponDto();
             coupon.setPropertyId(dto.getPropertyId());
+            coupon.setCustomerId(dto.getCustomerId());
+            coupon.setDescription("This coupon was granted through points redemption.");
             coupon.setCouponType(rule.getCouponType().getValue());
+            coupon.setCouponValidNumberOfDays(rule.getCouponValidNumberOfDays());
 
             // Calculate value
             BigDecimal calculatedValue = BigDecimal.valueOf(dto.getNumberOfPoints())
@@ -145,19 +152,21 @@ public class RedemptionServiceImpl implements RedemptionService {
                         "Failed to create coupon when redeeming points, please try again or contact support");
             }
 
-            // Set coupon id
-            newRedemption.setCouponId(couponDto.getId());
+            // Set coupon code
+            newRedemption.setCouponCode(couponDto.getCouponCode());
             // Debit points
             DebitPointsResultDto balance = pointService.debitPoints(dto.getPropertyId(),
                     dto.getCustomerId(),
-                    debitPoints.intValue());
+                    debitPoints.intValue(),
+                    TransactionReason.REDEMPTION);
 
             newRedemption.setTotalRemainingPoints(balance.getTotalRemainingPoints());
-            newRedemption.setTotalDebited(balance.getTotalDebited());
+            newRedemption.setTotalDebitedPoints(balance.getTotalDebited());
+            newRedemption.setCalculatedValue(calculatedValue);
 
         } else if (rule.getRedemptionType() == RedemptionType.CASHBACK) {
             log.info("Granting cashback for propertyId: {}, customerId: {}", dto.getPropertyId(), dto.getCustomerId());
-            // TODO: Implement cashback
+            throw new UnsupportedOperationException("Cashback redemption is not supported yet");
         }
 
         Redemption savedRedemption = redemptionRepository.save(newRedemption);

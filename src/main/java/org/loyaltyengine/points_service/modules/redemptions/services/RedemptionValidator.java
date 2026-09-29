@@ -1,8 +1,8 @@
 package org.loyaltyengine.points_service.modules.redemptions.services;
 
-import org.loyaltyengine.points.v1.model.ErrorDetail;
-import org.loyaltyengine.points.v1.model.ErrorType;
-import org.loyaltyengine.points_service.common.exceptions.BadRequestException;
+import org.loyaltyengine.points.client.models.ErrorDetail;
+import org.loyaltyengine.points.client.models.ErrorType;
+import org.loyaltyengine.points_service.core.exceptions.BadRequestException;
 import org.loyaltyengine.points_service.modules.redemptions.dtos.CreateRedemptionRuleDto;
 import org.loyaltyengine.points_service.modules.redemptions.utils.RedemptionType;
 import org.loyaltyengine.points_service.shared.enums.CouponType;
@@ -28,6 +28,10 @@ public class RedemptionValidator {
 
         if (isCurrencyRequired && !SharedUtils.isValidCurrency(dto.getAmountCurrency())) {
             errors.add(new ErrorDetail().field("amountCurrency").issue("Invalid currency code"));
+        }
+
+        if(dto.getRedemptionType()==RedemptionType.COUPON && dto.getCouponValidNumberOfDays()==null){
+            errors.add(new ErrorDetail().field("couponValidNumberOfDays").issue("Coupon valid number of days is required"));
         }
 
         if (!errors.isEmpty()) {

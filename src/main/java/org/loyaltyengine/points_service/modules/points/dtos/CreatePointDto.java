@@ -12,7 +12,7 @@ import lombok.Setter;
 public class CreatePointDto {
     private String propertyId;
     private String customerId;
-    private String pointTypeId;
+    private String pointTemplateId;
     private Integer numberOfPoints;
     private Boolean exchangeable;
     private String description;
