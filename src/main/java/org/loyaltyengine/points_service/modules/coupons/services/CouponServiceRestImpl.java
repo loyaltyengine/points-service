@@ -66,7 +66,7 @@ public class CouponServiceRestImpl implements CouponService {
             log.info("Response received from coupons service: {}", responseEntity.getBody());
 
             // Check status
-            if (responseEntity.getBody() != null && responseEntity.getStatusCode() == HttpStatus.CREATED) {
+            if (responseEntity.getBody() != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 
                 @SuppressWarnings("unchecked") // Confident the response is a Map
                 Map<String, Object> couponMap = (Map<String, Object>) responseEntity.getBody().get("coupon");

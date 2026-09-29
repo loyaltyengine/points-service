@@ -51,9 +51,9 @@ public class PointController {
         // Response
         PointResponse apiResponse = new PointResponse()
                 .point(pointMapper.toClient(pointDto))
-                .status(new Status().code(201).message("Points granted successfully"));
+                .status(new Status().code(200).message("Points granted successfully"));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping(value = CUSTOMER_POINTS_URL)
