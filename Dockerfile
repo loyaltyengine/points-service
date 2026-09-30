@@ -14,8 +14,12 @@ FROM eclipse-temurin:21-jre-alpine AS runner
 
 WORKDIR /app
 
+# Install curl
+RUN apk add --no-cache curl
+
 ARG JAR_FILE=./app/target/*.jar
 
+# Copy jar
 COPY --from=builder ${JAR_FILE} points-service.jar
 
 EXPOSE 8080
